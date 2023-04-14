@@ -25,12 +25,12 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public void update(Resume r) {
-        int index = getIndex(r.getUuid());
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
+            throw new NotExistStorageException(resume.getUuid());
         } else {
-            storage[index] = r;
+            storage[index] = resume;
         }
     }
 

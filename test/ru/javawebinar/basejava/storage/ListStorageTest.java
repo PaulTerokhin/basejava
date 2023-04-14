@@ -5,27 +5,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public abstract class AbstractArrayStorageTest {
-    private final Storage storage;
+class ListStorageTest {
+    private final Storage storage = new ListStorage();
     private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_NOT_EXIST = "dummy";
-
     private static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final String UUID_2 = "uuid2";
     private static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final String UUID_3 = "uuid3";
     private static final Resume RESUME_3 = new Resume(UUID_3);
+    private static final String UUID_NOT_EXIST = "dummy";
     private static final Resume RESUME_NOT_EXIST = new Resume(UUID_NOT_EXIST);
-
-
-    public AbstractArrayStorageTest(Storage storage) {
-        this.storage = storage;
-    }
 
     @BeforeEach
     public void setUp() {
@@ -70,20 +62,6 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    void saveOverflow() {
-        try {
-            storage.clear();
-            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume("uuid" + i));
-            }
-        } catch (StorageException e) {
-            Assertions.fail("Unexpected StorageException during saving");
-        }
-
-        assertThrows(StorageException.class, () -> storage.save(new Resume()));
-    }
-
-    @Test
     void save() {
         storage.save(RESUME_NOT_EXIST);
         assertGet(RESUME_NOT_EXIST);
@@ -98,7 +76,6 @@ public abstract class AbstractArrayStorageTest {
         } catch (NotExistStorageException e) {
             Assertions.fail("Unexpected NotExistStorageException during deleting existing resume");
         }
-
         assertThrows(NotExistStorageException.class, () -> storage.get(UUID_2));
     }
 
@@ -113,11 +90,6 @@ public abstract class AbstractArrayStorageTest {
         assertGet(RESUME_1);
         assertGet(RESUME_2);
         assertGet(RESUME_3);
-    }
-
-    @Test
-    void getNotExist() {
-        assertThrows(NotExistStorageException.class, () -> storage.get(UUID_NOT_EXIST));
     }
 
     void assertSize(int size) {

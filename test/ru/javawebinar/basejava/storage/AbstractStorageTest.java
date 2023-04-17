@@ -8,10 +8,12 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
 
-public abstract class AbstractArrayStorageTest {
-    private final Storage storage;
+import static org.junit.jupiter.api.Assertions.*;
+
+public abstract class AbstractStorageTest {
+    private Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -22,8 +24,7 @@ public abstract class AbstractArrayStorageTest {
     private static final Resume RESUME_3 = new Resume(UUID_3);
     private static final Resume RESUME_NOT_EXIST = new Resume(UUID_NOT_EXIST);
 
-
-    public AbstractArrayStorageTest(Storage storage) {
+    public AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -44,7 +45,6 @@ public abstract class AbstractArrayStorageTest {
     void clear() {
         storage.clear();
         assertSize(0);
-        Assertions.assertArrayEquals(new Storage[0], storage.getAll());
     }
 
     @Test
@@ -60,8 +60,11 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     void getAll() {
-        Resume[] actual = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
-        Assertions.assertArrayEquals(actual, storage.getAll());
+        List<Resume> allResumes = storage.getAll();
+        assertEquals(3, allResumes.size());
+        assertTrue(allResumes.contains(RESUME_1));
+        assertTrue(allResumes.contains(RESUME_2));
+        assertTrue(allResumes.contains(RESUME_3));
     }
 
     @Test
@@ -127,4 +130,5 @@ public abstract class AbstractArrayStorageTest {
     void assertGet(Resume resume) {
         Assertions.assertEquals(resume, storage.get(resume.getUuid()));
     }
+
 }

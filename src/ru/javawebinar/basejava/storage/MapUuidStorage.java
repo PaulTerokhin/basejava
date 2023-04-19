@@ -3,58 +3,54 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
 
-    HashMap<String, Resume> map = new HashMap<>();
+    private Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected String getSearchKey(String uuid) {
-//        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-//            if (entry.getValue().getUuid().equals(uuid)) {
-//                return entry.getKey();
-//            }
-//        }
-//        return null;
         return uuid;
     }
 
     @Override
     protected void doUpdate(Resume r, Object searchKey) {
-        map.put((String) searchKey, r);
+        storage.put((String) searchKey, r);
     }
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return map.containsKey((String) searchKey);
+        return storage.containsKey((String) searchKey);
     }
 
     @Override
     protected void doSave(Resume r, Object searchKey) {
-        map.put((String) searchKey, r);
+        storage.put((String) searchKey, r);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return map.get((String) searchKey);
+        return storage.get((String) searchKey);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        map.remove((String) searchKey);
+        storage.remove((String) searchKey);
     }
 
     @Override
     public void clear() {
-        map.clear();
+        storage.clear();
     }
 
     @Override
-    public List<Resume> getAll() {
-        return new ArrayList<>(map.values());
+    public List<Resume> getAllSorted() {
+        List<Resume> resumeList = new ArrayList<>(storage.values());
+        resumeList.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
+        return resumeList;
     }
 
     @Override
     public int size() {
-        return map.size();
+        return storage.size();
     }
 }

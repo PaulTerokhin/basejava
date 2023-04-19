@@ -1,16 +1,14 @@
 package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 public class MainReflection {
 
     public static void main(String[] args) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Resume r = new Resume();
+        Resume r = new Resume("Yeli");
         Field field = r.getClass().getDeclaredFields()[0];
         field.setAccessible(true);
         System.out.println(field.getName());
@@ -20,10 +18,6 @@ public class MainReflection {
         Method toStringMethod = r.getClass().getDeclaredMethod("toString");
         Object result = toStringMethod.invoke(r);
         System.out.println(result);
-
-
-
-
 
 
     }

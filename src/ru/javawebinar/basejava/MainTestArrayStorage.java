@@ -2,40 +2,27 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.ArrayStorage;
+import ru.javawebinar.basejava.storage.MapFullnameStorage;
 
-/**
- * Test ru.javawebinar.basejava.storage.ArrayStorage
- */
 public class MainTestArrayStorage {
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    private static final String UUID_1 = "buid1";
+    private static final String UUID_2 = "uuid2";
+    private static final String UUID_3 = "zuid3";
+    private static final String UUID_NOT_EXIST = "dummy";
+
+    private static final Resume RESUME_1 = new Resume(UUID_1, "Bob");
+    private static final Resume RESUME_2 = new Resume(UUID_2, "Anasteisha");
+    private static final Resume RESUME_3 = new Resume(UUID_3, "Martin");
+    private static final Resume RESUME_NOT_EXIST = new Resume(UUID_NOT_EXIST);
 
     public static void main(String[] args) {
-        Resume r1 = new Resume("uuid1");
-        Resume r2 = new Resume("uuid2");
-        Resume r3 = new Resume("uuid3");
+        MapFullnameStorage storage = new MapFullnameStorage();
+        storage.save(RESUME_1);
+        storage.save(RESUME_3);
+        storage.save(RESUME_2);
+        storage.save(new Resume("Hermann"));
 
-        ARRAY_STORAGE.save(r1);
-        ARRAY_STORAGE.save(r2);
-        ARRAY_STORAGE.save(r3);
+        System.out.println(storage.getAllSorted());
 
-        System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
-        System.out.println("Size: " + ARRAY_STORAGE.size());
-
-        System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
-
-        printAll();
-        ARRAY_STORAGE.delete(r1.getUuid());
-        printAll();
-        ARRAY_STORAGE.clear();
-        printAll();
-
-        System.out.println("Size: " + ARRAY_STORAGE.size());
-    }
-
-    static void printAll() {
-        System.out.println("\nGet All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
-            System.out.println(r);
-        }
     }
 }

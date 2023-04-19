@@ -5,24 +5,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
-import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
+    protected Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_NOT_EXIST = "dummy";
 
-    private static final Resume RESUME_1 = new Resume(UUID_1);
-    private static final Resume RESUME_2 = new Resume(UUID_2);
-    private static final Resume RESUME_3 = new Resume(UUID_3);
-    private static final Resume RESUME_NOT_EXIST = new Resume(UUID_NOT_EXIST);
+    private static final Resume RESUME_1 = new Resume(UUID_1, "John Smith");
+    private static final Resume RESUME_2 = new Resume(UUID_2, "Ali Khan");
+    private static final Resume RESUME_3 = new Resume(UUID_3, "David Kim");
+    private static final Resume RESUME_NOT_EXIST = new Resume(UUID_NOT_EXIST, "Not Exist");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -50,6 +50,7 @@ public abstract class AbstractStorageTest {
     @Test
     void update() {
         storage.update(RESUME_1);
+
         Assertions.assertSame(RESUME_1, storage.get(UUID_1));
     }
 
@@ -59,31 +60,19 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    void getAll() {
-        List<Resume> allResumes = storage.getAll();
-        assertEquals(3, allResumes.size());
-        assertTrue(allResumes.contains(RESUME_1));
-        assertTrue(allResumes.contains(RESUME_2));
-        assertTrue(allResumes.contains(RESUME_3));
+    void getAllSorted() {
+        List<Resume> allResumes = storage.getAllSorted();
+        List<Resume> expected = new ArrayList<>();
+        expected.add(RESUME_2);
+        expected.add(RESUME_3);
+        expected.add(RESUME_1);
+
+        assertEquals(expected, allResumes);
     }
 
     @Test
     void saveExist() {
         assertThrows(ExistStorageException.class, () -> storage.save(RESUME_2));
-    }
-
-    @Test
-    void saveOverflow() {
-        try {
-            storage.clear();
-            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume("uuid" + i));
-            }
-        } catch (StorageException e) {
-            Assertions.fail("Unexpected StorageException during saving");
-        }
-
-        assertThrows(StorageException.class, () -> storage.save(new Resume()));
     }
 
     @Test

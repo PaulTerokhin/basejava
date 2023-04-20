@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ListStorage extends AbstractStorage {
 
-    private List<Resume> storage = new ArrayList<>();
+    private final List<Resume> storage = new ArrayList<>();
 
     @Override
     protected Integer getSearchKey(String uuid) {
@@ -38,6 +38,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
+    protected List<Resume> doGetAll() {
+        return new ArrayList<>(storage);
+    }
+
+    @Override
     protected void doDelete(Object searchKey) {
         storage.remove(((Integer) searchKey).intValue());
     }
@@ -45,13 +50,6 @@ public class ListStorage extends AbstractStorage {
     @Override
     public void clear() {
         storage.clear();
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> resumeList = new ArrayList<>(storage);
-        resumeList.sort(Comparator.nullsLast(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid)));
-        return resumeList;
     }
 
     @Override

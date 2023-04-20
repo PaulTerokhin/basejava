@@ -2,10 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -28,10 +25,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storage[(Integer) index] = r;
     }
 
-    public List<Resume> getAllSorted() {
-        List<Resume> resumeList = Arrays.asList(Arrays.copyOfRange(storage, 0, size));
-        resumeList.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
-        return resumeList;
+    @Override
+    public List<Resume> doGetAll() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
     @Override

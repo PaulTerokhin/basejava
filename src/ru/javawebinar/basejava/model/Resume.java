@@ -1,12 +1,13 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
-public class Resume  {
+public class Resume implements Comparable<Resume>  {
 
     private final String uuid;
     private final String fullName;
+    private Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -25,6 +26,10 @@ public class Resume  {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public String getContact(ContactType type) {
+        return contacts.get(type);
     }
 
     @Override
@@ -52,4 +57,12 @@ public class Resume  {
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public int compareTo(Resume o) {
+        int cmp = fullName.compareTo(o.fullName);
+        return cmp != 0 ? cmp : uuid.compareTo(o.uuid);
+    }
+
+
 }

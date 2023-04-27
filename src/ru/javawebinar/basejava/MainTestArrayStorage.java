@@ -18,20 +18,21 @@ public class MainTestArrayStorage {
 //        storage.save(new Resume("Hermann"));
 
 
-        System.out.println(close10(13,13));
+        System.out.println(everyNth("amortad",2));
 
 
 
     }
 
-    public static int close10(int a, int b) {
-        if (Math.abs(a - 10) > Math.abs(b - 10)) {
-            return b;
-        } else if (Math.abs(a - 10) < Math.abs(b - 10)) {
-            return a;
-        } else {
-            return 0;
+    public static String everyNth(String str, int n) {
+        StringBuilder start = new StringBuilder(str.substring(0, 1));
+        char[] array = str.toCharArray();
+        for(int i = n; i < str.length(); i = i + n) {
+            start.append(array[i]);
         }
+        return start.toString();
+
+
 
 
 

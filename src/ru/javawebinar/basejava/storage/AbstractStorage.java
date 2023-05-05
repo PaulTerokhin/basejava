@@ -3,23 +3,29 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
-import java.util.Comparator;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 public abstract class AbstractStorage<SK> implements Storage {
 
+    //    protected final Logger LOG = Logger.getLogger(getClass().getName());
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
-    private static final Comparator<Resume> RESUME_COMPARATOR =
-            Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+    protected abstract SK getSearchKey(String uuid);
 
-    public List<Resume> getAllSorted() {
-        LOG.info("getAllSorted");
-        List<Resume> list = doGetAll();
-        list.sort(RESUME_COMPARATOR);
-        return list;
-    }
+    protected abstract void doUpdate(Resume r, SK searchKey);
+
+    protected abstract boolean isExist(SK searchKey);
+
+    protected abstract void doSave(Resume r, SK searchKey);
+
+    protected abstract Resume doGet(SK searchKey);
+
+    protected abstract void doDelete(SK searchKey);
+
+    protected abstract List<Resume> doCopyAll();
 
     public void update(Resume r) {
         LOG.info("Update " + r);
@@ -63,17 +69,11 @@ public abstract class AbstractStorage<SK> implements Storage {
         return searchKey;
     }
 
-    protected abstract SK getSearchKey(String uuid);
-
-    protected abstract void doDelete(SK searchKey);
-
-    protected abstract void doUpdate(Resume r, SK searchKey);
-
-    protected abstract boolean isExist(SK searchKey);
-
-    protected abstract void doSave(Resume r, SK searchKey);
-
-    protected abstract Resume doGet(SK searchKey);
-
-    protected abstract List<Resume> doGetAll();
+    @Override
+    public List<Resume> getAllSorted() {
+        LOG.info("getAllSorted");
+        List<Resume> list = doCopyAll();
+        Collections.sort(list);
+        return list;
+    }
 }

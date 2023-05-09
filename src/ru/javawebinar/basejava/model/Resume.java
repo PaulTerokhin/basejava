@@ -1,8 +1,12 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
-public class Resume implements Comparable<Resume> {
+public class Resume implements Comparable<Resume>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private final String uuid;
 

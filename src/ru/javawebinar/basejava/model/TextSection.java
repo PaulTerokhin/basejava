@@ -1,9 +1,13 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serial;
 import java.util.Objects;
 
 public class TextSection extends Section {
     private final String content;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public TextSection(String content) {
         Objects.requireNonNull(content, "content must not be null");

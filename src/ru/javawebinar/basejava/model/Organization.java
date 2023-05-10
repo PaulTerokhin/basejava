@@ -1,5 +1,10 @@
 package ru.javawebinar.basejava.model;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import ru.javawebinar.basejava.util.LocalDateAdapter;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,13 +17,16 @@ import java.util.Objects;
 import static ru.javawebinar.basejava.util.DateUtil.NOW;
 import static ru.javawebinar.basejava.util.DateUtil.of;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
-    private final Link homePage;
+    private Link homePage;
     private List<Position> positions = new ArrayList<>();
 
     public Organization(String name, String url, Position... positions) {
         this(new Link(name, url), Arrays.asList(positions));
     }
+
+    public Organization() {}
 
     public Organization(Link homePage, List<Position> positions) {
         this.homePage = homePage;
@@ -44,12 +52,14 @@ public class Organization implements Serializable {
         return "Organization(" + homePage + "," + positions + ')';
     }
 
-
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable{
         @Serial
         private static final long serialVersionUID = 1L;
 
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private final LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private final LocalDate endDate;
         private final String title;
         private final String description;

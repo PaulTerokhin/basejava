@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class MainFile {
     public static void main(String[] args) {
-        String filePath = "D:/basejava/basejava/.gitignore";
+        String filePath = ".\\.gitignore";
 
         File file = new File(filePath);
         try {
@@ -16,7 +16,7 @@ public class MainFile {
             throw new RuntimeException("Error", e);
         }
 
-        File dir = new File("D:/basejava/basejava/src/ru/javawebinar/basejava");
+        File dir = new File("./src/ru/javawebinar/basejava");
         System.out.println(dir.isDirectory());
         String[] list = dir.list();
         if (list != null) {
@@ -31,6 +31,8 @@ public class MainFile {
             throw new RuntimeException(e);
         }
         printDirectoryDeeply(dir, "");
+
+        System.out.println(System.getProperty("user.dir"));
     }
 
     public static void printDirectoryDeeply(File dir, String indentation) {

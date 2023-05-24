@@ -1,7 +1,5 @@
 package ru.javawebinar.basejava;
 
-import ru.javawebinar.basejava.model.Resume;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

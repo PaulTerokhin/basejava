@@ -2,26 +2,33 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class MainTestArrayStorage {
 
     public static void main(String[] args) {
 
-        System.out.println(doubleX("xaxxx"));
+        List<Integer> list = new ArrayList<>();
 
-    }
-    public static boolean doubleX(String str) {
-        char[] array = str.toCharArray();
-        for(int i = 0; i < str.length(); i++) {
-            if (array[i] == 'x') {
-                if((i + 1) <= str.length()) {
-                    if (array[i + 1] == 'x') {
-                        return true;
-                    }
-                }
-                break;
+        list.add(1);
+        list.add(2);
+        list.add(3);
+
+        Iterator<Integer> iterator = list.iterator();
+
+        int idx = 0;
+        while(iterator.hasNext()) {
+            if(idx == 2) {
+                iterator.remove();
             }
+            System.out.println(iterator.next());
+            idx++;
         }
-        return false;
+
+        System.out.println(list);
+
 
 
 
@@ -29,4 +36,5 @@ public class MainTestArrayStorage {
 
 
     }
+
 }

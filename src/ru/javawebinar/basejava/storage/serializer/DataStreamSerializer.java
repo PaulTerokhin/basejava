@@ -81,7 +81,6 @@ public class DataStreamSerializer implements StreamSerializer {
                                     readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF()
                             ))
                     )));
-            default -> throw new IllegalStateException();
         };
     }
 

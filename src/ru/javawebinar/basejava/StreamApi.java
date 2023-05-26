@@ -8,7 +8,7 @@ public class StreamApi {
         int[] numbers = {5, 4, 8, 1, 9, 4, 2, 1, 3, 6, 8};
         System.out.println(minValue(numbers));
 
-        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 3);
+        List<Integer> integers = Arrays.asList(1, 2, 3, 4, 5, 4);
         System.out.println(oddOrEven(integers));
     }
 
@@ -23,14 +23,8 @@ public class StreamApi {
         int sum = integers.stream()
                 .reduce(0, Integer::sum);
 
-        if (sum % 2 == 0) {
-            return integers.stream()
-                    .filter(number -> number % 2 != 0)
-                    .toList();
-        } else {
-            return integers.stream()
-                    .filter(number -> number % 2 == 0)
-                    .toList();
-        }
+        return integers.stream()
+                .filter(number -> (sum % 2 == 0) == (number % 2 != 0))
+                .toList();
     }
 }

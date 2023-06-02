@@ -1,5 +1,7 @@
 package ru.javawebinar.basejava;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class MainConcurrency {
     public static final Object Lock1 = new Object();
     public static final Object Lock2 = new Object();
@@ -9,6 +11,8 @@ public class MainConcurrency {
         Thread2 thread2 = new Thread2();
         thread1.start();
         thread2.start();
+        AtomicInteger number = new AtomicInteger(10);
+
     }
 
     private static void performSynchronizedBlock(Object lock1, Object lock2, String message1, String message2) {

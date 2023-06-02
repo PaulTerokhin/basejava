@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.storage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("D:\\basejava\\basejava\\Storage");
+    protected static final File STORAGE_DIR = Config.getInstance().getStorageDir();
 
     protected Storage storage;
 
@@ -72,6 +73,8 @@ public abstract class AbstractStorageTest {
         expected.add(RESUME_3);
         expected.add(RESUME_1);
         assertEquals(expected, allResumes);
+//        Assertions.assertLinesMatch(expected, allResumes);
+//        Assertions.assertIterableEquals(expected, allResumes);
     }
 
     @Test

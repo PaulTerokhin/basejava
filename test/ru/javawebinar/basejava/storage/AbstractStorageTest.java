@@ -73,8 +73,6 @@ public abstract class AbstractStorageTest {
         expected.add(RESUME_3);
         expected.add(RESUME_1);
         assertEquals(expected, allResumes);
-//        Assertions.assertLinesMatch(expected, allResumes);
-//        Assertions.assertIterableEquals(expected, allResumes);
     }
 
     @Test

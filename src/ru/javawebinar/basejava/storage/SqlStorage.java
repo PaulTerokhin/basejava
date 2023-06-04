@@ -46,23 +46,16 @@ public class SqlStorage implements Storage{
     @Override
     public void save(Resume r) {
         try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT uuid FROM resume WHERE uuid = ?")) {
-            ps.setString(1, r.getUuid());
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                throw new ExistStorageException(r.getUuid());
-            }
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
-
-        try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
             ps.setString(1, r.getUuid());
             ps.setString(2, r.getFullName());
             ps.execute();
         } catch (SQLException e) {
-            throw new StorageException(e);
+            if ("23505".equals(e.getSQLState())) {
+                throw new ExistStorageException(r.getUuid());
+            } else {
+                throw new StorageException(e);
+            }
         }
     }
 

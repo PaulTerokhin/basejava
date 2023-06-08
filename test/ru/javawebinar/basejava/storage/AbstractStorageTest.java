@@ -11,6 +11,7 @@ import ru.javawebinar.basejava.model.Resume;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -21,15 +22,22 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_NOT_EXIST = "dummy";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_NOT_EXIST = UUID.randomUUID().toString();
 
-    private static final Resume RESUME_1 = new Resume(UUID_1, "John Smith");
-    private static final Resume RESUME_2 = new Resume(UUID_2, "Ali Khan");
-    private static final Resume RESUME_3 = new Resume(UUID_3, "David Kim");
-    private static final Resume RESUME_NOT_EXIST = new Resume(UUID_NOT_EXIST, "Not Exist");
+    private static final Resume RESUME_1;
+    private static final Resume RESUME_2;
+    private static final Resume RESUME_3;
+    private static final Resume RESUME_NOT_EXIST;
+
+    static {
+        RESUME_1 = new Resume(UUID_1, "John Smith");
+        RESUME_2 = new Resume(UUID_2, "Ali Khan");
+        RESUME_3 = new Resume(UUID_3, "David Kim");
+        RESUME_NOT_EXIST = new Resume(UUID_NOT_EXIST, "Not Exist");
+    }
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;

@@ -6,6 +6,8 @@ import java.util.Objects;
 public class TextSection extends Section {
     private String content;
 
+    public static final TextSection EMPTY = new TextSection("");
+
     @Serial
     private static final long serialVersionUID = 1L;
 
